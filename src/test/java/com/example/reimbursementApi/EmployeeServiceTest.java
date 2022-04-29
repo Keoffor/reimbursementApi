@@ -15,9 +15,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.*;
-import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.context.annotation.Profile;
 
@@ -35,7 +33,7 @@ import static org.mockito.Mockito.verify;
 
 @Profile("test")
 @ExtendWith(MockitoExtension.class)
-public class EmployeeServiceText {
+public class EmployeeServiceTest {
 
 
     @Mock
@@ -103,7 +101,7 @@ public class EmployeeServiceText {
     }
 
     @Test
-    public void shouldGetEmployeeAccount(){
+    public void testshouldGetEmployeeAccount(){
         List<Reimbursement> sweet = new ArrayList<>(Arrays.asList(re));
         EmployeeId  id = new EmployeeId();
         Mockito.when(employeeRepository.findById(anyInt())).thenReturn(Optional.of(response));
@@ -114,7 +112,7 @@ public class EmployeeServiceText {
     }
 
     @Test
-    public void shouldReturnErrorEmployeeAccount(){
+    public void testshouldReturnErrorEmployeeAccount(){
         List<Reimbursement> sweet = new ArrayList<>(Arrays.asList(re));
         EmployeeId  id = new EmployeeId();
         Mockito.when(employeeRepository.findById(anyInt())).thenReturn(Optional.empty());

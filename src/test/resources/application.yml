@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: reimbursementApi
+  datasource:
+    username: postgres
+    password: password
+    url: jdbc:postgresql://35.223.44.11:5432/postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        format_sql: true
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+jwt:
+  secret: token_secret
+  expiry: 360000
+
+services:
+  message-service:
+    message: "Hello Word!!"
+
+server:
+  port: 8000
+  servlet:
+    context-path: /
+
+api:
+  config:
+    api2-url: http://localhost:8001/email

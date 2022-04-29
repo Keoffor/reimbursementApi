@@ -1,0 +1,61 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reimburse-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reimburse-app
+  template:
+    metadata:
+      labels:
+        app: reimburse-app
+    spec:
+      containers:
+      - image: keoffor/reimburse:v1
+#        env:
+#          - name: VALIDATION
+#            value: http://$(USER_SERVICE_SERVICE_HOST):8081/users/validate
+#          - name: EUREKA_URI
+#            value: http://(EUREKA_SERVICE_SERVICE_HOST):8083/eureka
+#          - name: ANGULAR_URI
+#            value: http://20.98.180.247:80
+#          - name: AWS_ACCESS_KEY
+#            value: AKIA4OK5FKIY3WZXH4XW
+#          - name:  AWS_SECRET_KEY
+#            value: 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
+        imagePullPolicy: Always
+        name: reimburse-container
+        ports:
+        - containerPort: 8000
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: service-app
+  name: reimburse-service
+spec:
+  type: LoadBalancer
+  ports:
+    - name: service-http
+      port: 8000
+      targetPort: 8000
+  selector:
+    app: reimburse-app
+#---
+#apiVersion: monitoring.coreos.com/v1
+#kind: ServiceMonitor
+#metadata:
+# name: reimburse-monitor
+#spec:
+# selector:
+#   matchLabels:
+#     app: service-app
+# endpoints:
+#   - port: service-http
+#     path: "/actuator/prometheus"

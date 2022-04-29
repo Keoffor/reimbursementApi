@@ -4,7 +4,7 @@ spring:
   datasource:
     username: postgres
     password: password
-    url: jdbc:postgresql://35.223.44.11:5432/postgres
+    url: jdbc:postgresql://35.192.86.45:5432/postgres
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -29,4 +29,4 @@ server:
 
 api:
   config:
-    api2-url: ${EMAIL_URL}
+    api2-url: ${EMAIL_URL:http://localhost:8085}

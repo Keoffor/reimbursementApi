@@ -6,13 +6,14 @@ pipeline{
                 docker{
                     image 'openjdk:11'
                 }
+
             }
             steps{
                 script{
-                withSonarQubeEnv(credentialsId: 'jenkins-sonar1') {
+                withSonarQubeEnv(credentialsId: 'sonar1') {
                     sh 'chmod +x mvnw'
                     sh './mvnw sonarqube'
-                }
+                } 
          }
             }
         

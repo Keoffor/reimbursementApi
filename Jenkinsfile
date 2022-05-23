@@ -8,9 +8,11 @@ pipeline{
                 }
             }
             steps{
+                script{
                 withSonarQubeEnv(credentialsId: 'jenkins-sonar1') {
                     sh 'chmod +x mvnw'
                     sh './mvnw sonarqube'
+                }
          }
             }
         

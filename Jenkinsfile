@@ -12,7 +12,7 @@ pipeline{
                 script{
                 withSonarQubeEnv(credentialsId: 'sonar1') {
                     sh 'chmod +x mvnw'
-                    sh './mvnw sonarqube'
+                    sh './mvnw install'
                 } 
          }
             }

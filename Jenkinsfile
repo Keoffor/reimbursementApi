@@ -41,13 +41,15 @@ pipeline{
                 }
             }
         }
-    // stage("identifying misconfigs using datree in helm charts"){
-    //     steps{
-    //         script{
-
-    //         }
-    //     }
-    // }
+    stage("identifying misconfigs using datree in helm charts"){
+        steps{
+            script{
+                    dir('Kubernetes/helm-app/') {
+                        sh 'helm datree test mvn-helm/'
+                }
+            }
+        }
+    }
 
     }
     // post{

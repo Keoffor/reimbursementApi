@@ -1,5 +1,8 @@
 pipeline{
     agent any
+    environment {
+        VERSION = "${env.BUILD_ID}"
+    }
     stages{
         stage("sonar quality check"){
             agent{
@@ -23,6 +26,20 @@ pipeline{
          }
             }
         
+        }
+        stage("Docker build & push"){
+            step{
+                script{
+                    withCredentials([string(credentialsId: 'nexus-pass', variable: 'docker-pass')]) {
+                    sh '''
+                       docker build -t 34.121.205.170:8083/maven-app:${VERSION} . 
+                       docker login -u admin -p dreams16docker login -u admin -p $docker-pass 34.121.205.170:8083   
+                       docker push  34.121.205.170:8083/maven-app:${VERSION}
+                       docker rmi 34.121.205.170:8083/maven-app:${VERSION}
+                    ''' 
+                    }   
+                }
+            }
         }
     }
     // post{

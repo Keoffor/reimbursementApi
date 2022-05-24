@@ -30,10 +30,10 @@ pipeline{
     stage("Docker build & push"){
             steps{
                 script{
-                    withCredentials([string(credentialsId: 'nexus-pass', variable: 'docker-pass')]) {
+                    withCredentials([string(credentialsId: 'nexus_repo', variable: 'docker_pass')]) {
                     sh '''
                        docker build -t 34.121.205.170:8083/maven-app:${VERSION} . 
-                       docker login -u admin -p $docker-pass 34.121.205.170:8083   
+                       docker login -u admin -p $docker_pass 34.121.205.170:8083   
                        docker push  34.121.205.170:8083/maven-app:${VERSION}
                        docker rmi 34.121.205.170:8083/maven-app:${VERSION}
                     ''' 

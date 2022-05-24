@@ -41,13 +41,13 @@ pipeline{
                 }
             }
         }
-    stage("identifying misconfigs using datree in helm charts"){
-        steps{
-            script{
+    // stage("identifying misconfigs using datree in helm charts"){
+    //     steps{
+    //         script{
 
-            }
-        }
-    }
+    //         }
+    //     }
+    // }
 
     }
     // post{

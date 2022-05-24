@@ -27,8 +27,8 @@ pipeline{
             }
         
         }
-        stage("Docker build & push"){
-            step{
+    stage("Docker build & push"){
+            steps{
                 script{
                     withCredentials([string(credentialsId: 'nexus-pass', variable: 'docker-pass')]) {
                     sh '''

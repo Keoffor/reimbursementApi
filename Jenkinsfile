@@ -32,7 +32,7 @@ pipeline{
                 script{
                     withCredentials([string(credentialsId: 'nexus_repo', variable: 'docker_pass')]) {
                     sh '''
-                       docker build -t 34.123.46.30:8083/maven-app:${VERSION} . 
+                       docker build -t 35.193.174.218:8083/maven-app:${VERSION} . 
                        docker login -u admin -p $docker_pass 35.193.174.218:8083   
                        docker push  35.193.174.218:8083/maven-app:${VERSION}
                        docker rmi 35.193.174.218:8083/maven-app:${VERSION}

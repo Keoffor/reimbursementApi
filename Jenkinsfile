@@ -15,7 +15,7 @@ pipeline{
                 script{
                 withSonarQubeEnv(credentialsId: 'sonar1') {
                     sh 'chmod +x mvnw'
-                    sh './mvnw sonar:sonar -Dsonar.host.url=http://35.184.63.1:9000 -Dsonar.login=f15c3f2947551ec25927753d59883e219c5fbfa0'
+                    sh './mvnw sonar:sonar -Dsonar.host.url=http://35.192.9.115:9000 -Dsonar.login=f15c3f2947551ec25927753d59883e219c5fbfa0'
                 } 
                 //    timeout(time: 15, unit: 'MINUTES') {
                 //       def qg = waitForQualityGate()
@@ -33,9 +33,9 @@ pipeline{
                     withCredentials([string(credentialsId: 'nexus_repo', variable: 'docker_pass')]) {
                     sh '''
                        docker build -t 34.123.46.30:8083/maven-app:${VERSION} . 
-                       docker login -u admin -p $docker_pass 34.123.46.30:8083   
-                       docker push  34.123.46.30:8083/maven-app:${VERSION}
-                       docker rmi 34.123.46.30:8083/maven-app:${VERSION}
+                       docker login -u admin -p $docker_pass 35.193.174.218:8083   
+                       docker push  35.193.174.218:8083/maven-app:${VERSION}
+                       docker rmi 35.193.174.218:8083/maven-app:${VERSION}
                     ''' 
                     }   
                 }
@@ -44,9 +44,12 @@ pipeline{
     stage("identifying misconfigs using datree in helm charts"){
         steps{
             script{
+                     withEnv(['DATREE_TOKEN=1d78c93c-a3c3-42ac-bbd4-4f441a65e0c0']) {
+                        
                     dir('Kubernetes/') {
                         sh 'helm datree test mvn-helm/'
                 }
+                     }
             }
         }
     }

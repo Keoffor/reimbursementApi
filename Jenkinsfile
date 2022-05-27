@@ -15,7 +15,7 @@ pipeline{
                 script{
                 withSonarQubeEnv(credentialsId: 'sonar1') {
                     sh 'chmod +x mvnw'
-                    sh './mvnw sonar:sonar -Dsonar.host.url=http://35.192.9.115:9000 -Dsonar.login=f15c3f2947551ec25927753d59883e219c5fbfa0'
+                    sh './mvnw sonar:sonar -Dsonar.host.url=http://35.226.157.249:9000 -Dsonar.login=f15c3f2947551ec25927753d59883e219c5fbfa0'
                 } 
                 //    timeout(time: 15, unit: 'MINUTES') {
                 //       def qg = waitForQualityGate()
@@ -47,12 +47,28 @@ pipeline{
                      withEnv(['DATREE_TOKEN=1d78c93c-a3c3-42ac-bbd4-4f441a65e0c0']) {
                         
                     dir('Kubernetes/') {
-                        sh 'helm datree test mvn-helm/'
+                        sh 'helm datree test mvn_helm/'
                 }
                      }
             }
         }
     }
+
+    stage("Push helm chart to Nexus repo"){
+            steps{
+                script{
+                    withCredentials([string(credentialsId: 'nexus_repo', variable: 'docker_pass')]) {
+                   dir('Kubernetes/') {     
+                    sh '''
+                        helmversion=$(helm show chart mvn_helm | grep version | cut -d: -f 2 | tr -d  ' ')
+                        tar -czvf myapp-${helmversion}.tgz mvn_helm/
+                        curl -u admin:$docker_pass http://35.193.174.218:8081/repository/helm-hosted/ --upload-file myapp-${helmversion}.tgz -v
+                    ''' 
+                    }  
+                }  
+                }
+            }
+        }
 
     }
     // post{

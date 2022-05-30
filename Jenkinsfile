@@ -32,10 +32,10 @@ pipeline{
                 script{
                     withCredentials([string(credentialsId: 'nexus_repo', variable: 'docker_pass')]) {
                     sh '''
-                       docker build -t 35.192.36.184:8083/maven-app:${VERSION} . 
-                       docker login -u admin -p $docker_pass 35.192.36.184:8083   
-                       docker push  35.192.36.184:8083/maven-app:${VERSION}
-                       docker rmi 35.192.36.184:8083/maven-app:${VERSION}
+                       docker build -t keoffor/reimburse:${VERSION} . 
+                       docker login -u keoffor -p $docker_pass  
+                       docker push  keoffor/reimburse:${VERSION}
+                       docker rmi keoffor/reimburse:${VERSION}
                     ''' 
                     }   
                 }
@@ -54,27 +54,27 @@ pipeline{
         }
     }
 
-    stage("Push helm chart to Nexus repo"){
-            steps{
-                script{
-                    withCredentials([string(credentialsId: 'nexus_repo', variable: 'docker_pass')]) {
-                   dir('Kubernetes/') {     
-                    sh '''
-                        helmversion=$(helm show chart mvn_helm | grep version | cut -d: -f 2 | tr -d  ' ')
-                        tar -czvf myapp-${helmversion}.tgz mvn_helm/
-                        curl -u admin:$docker_pass http://35.192.36.184:8081/repository/helm_repo/ --upload-file myapp-${helmversion}.tgz -v
-                    ''' 
-                    }  
-                }  
-                }
-            }
-        }
+    // stage("Push helm chart to Nexus repo"){
+    //         steps{
+    //             script{
+    //                 withCredentials([string(credentialsId: 'nexus_repo', variable: 'docker_pass')]) {
+    //                dir('Kubernetes/') {     
+    //                 sh '''
+    //                     helmversion=$(helm show chart mvn_helm | grep version | cut -d: -f 2 | tr -d  ' ')
+    //                     tar -czvf myapp-${helmversion}.tgz mvn_helm/
+    //                     curl -u admin:$docker_pass http://35.192.36.184:8081/repository/helm_repo/ --upload-file myapp-${helmversion}.tgz -v
+    //                 ''' 
+    //                 }  
+    //             }  
+    //             }
+    //         }
+    //     }
     stage("Deploy to GKE"){
         steps{
             script{
                   withCredentials([kubeconfigFile(credentialsId: 'kubeciti', variable: 'KUBECONFIG')]) {
                  dir('Kubernetes/') {      
-                    sh 'helm upgrade --install --set image.repository="35.192.36.184:8083/maven-app"  --set image.tag="${VERSION}" myjavaapp mvn_helm/ '
+                    sh 'helm upgrade --install --set image.tag="${VERSION}" myjavaapp mvn_helm/ '
                  }   
 }
                 }

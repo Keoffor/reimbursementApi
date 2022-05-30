@@ -1,10 +1,10 @@
 replicaCount: 1
 
 image:
-  repository: image_name
+  repository: keoffor/reimburse
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: image_tag
+  tag: image_tage
 
 
 service:
@@ -16,7 +16,7 @@ service:
 containers:
  name: reimburse-container 
 
-containerPort: 8000
+# containerPort: 8000
 
 
 

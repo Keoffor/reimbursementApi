@@ -15,7 +15,7 @@ pipeline{
                 script{
                 withSonarQubeEnv(credentialsId: 'sonar1') {
                     sh 'chmod +x mvnw'
-                    sh './mvnw sonar:sonar -Dsonar.host.url=http://34.70.20.236:9000 -Dsonar.login=f15c3f2947551ec25927753d59883e219c5fbfa0'
+                    sh './mvnw sonar:sonar -Dsonar.host.url=http://35.223.136.85:9000 -Dsonar.login=f15c3f2947551ec25927753d59883e219c5fbfa0'
                 } 
                 //    timeout(time: 15, unit: 'MINUTES') {
                 //       def qg = waitForQualityGate()
@@ -32,10 +32,10 @@ pipeline{
                 script{
                     withCredentials([string(credentialsId: 'nexus_repo', variable: 'docker_pass')]) {
                     sh '''
-                       docker build -t 34.132.63.84:8083/maven-app:${VERSION} . 
-                       docker login -u admin -p $docker_pass 34.132.63.84:8083   
-                       docker push  34.132.63.84:8083/maven-app:${VERSION}
-                       docker rmi 34.132.63.84:8083/maven-app:${VERSION}
+                       docker build -t 35.192.36.184:8083/maven-app:${VERSION} . 
+                       docker login -u admin -p $docker_pass 35.192.36.184:8083   
+                       docker push  35.192.36.184:8083/maven-app:${VERSION}
+                       docker rmi 35.192.36.184:8083/maven-app:${VERSION}
                     ''' 
                     }   
                 }
@@ -62,7 +62,7 @@ pipeline{
                     sh '''
                         helmversion=$(helm show chart mvn_helm | grep version | cut -d: -f 2 | tr -d  ' ')
                         tar -czvf myapp-${helmversion}.tgz mvn_helm/
-                        curl -u admin:$docker_pass http://34.132.63.84:8081/repository/helm_repo/ --upload-file myapp-${helmversion}.tgz -v
+                        curl -u admin:$docker_pass http://35.192.36.184:8081/repository/helm_repo/ --upload-file myapp-${helmversion}.tgz -v
                     ''' 
                     }  
                 }  
@@ -74,7 +74,7 @@ pipeline{
             script{
                   withCredentials([kubeconfigFile(credentialsId: 'kubeciti', variable: 'KUBECONFIG')]) {
                  dir('Kubernetes/') {      
-                    sh 'helm upgrade --install --set image.repository="34.132.63.84:8083/reimburse"  myjavaapp mvn_helm/ '
+                    sh 'helm upgrade --install --set image.repository="35.192.36.184:8083/mvn-app"  --set image.tag = ${VERSION} myjavaapp mvn_helm/ '
                  }   
 }
                 }

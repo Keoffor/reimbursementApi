@@ -17,8 +17,7 @@ spec:
       imagePullSecrets:
        - name: mvn-secret
       containers:
-      - image: {{ .Values.image.repository | quote}}
-        tag: {{ .Values.image.tag}}
+      - image: {{ .Values.image.repository | quote}}:{{ .Values.image.tag}}
         imagePullPolicy: {{ .Values.image.pullPolicy}}
         name: {{ .Values.containers.name}}
         ports:

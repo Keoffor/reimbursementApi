@@ -2,9 +2,9 @@ spring:
   application:
     name: reimbursementApi
   datasource:
-    username: postgres
-    password: password
-    url: jdbc:postgresql://35.192.86.45:5432/postgres
+    username: obaz@obazsql
+    password: Dreams16american
+    url: jdbc:postgresql://obazsql.postgres.database.azure.com/obazdb
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -29,4 +29,5 @@ server:
 
 api:
   config:
-    api2-url: ${EMAIL_URL:http://localhost:8085}
+    api2-url: http://20.84.175.31:8001/email
+    # api2-url: ${EMAIL_URL:http://localhost:8085}

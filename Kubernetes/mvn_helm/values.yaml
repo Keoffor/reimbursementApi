@@ -1,0 +1,22 @@
+replicaCount: 1
+
+image:
+  repository: keoffor/reimburse
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: image_tage
+
+
+service:
+  type: LoadBalancer
+  port: 8000
+  name: reimburse-service
+  targetPort: 8000
+
+containers:
+ name: reimburse-container 
+
+# containerPort: 8000
+
+
+

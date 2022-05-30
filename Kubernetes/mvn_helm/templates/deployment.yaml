@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name}}
+  labels:
+    {{- include "mvn-helm.selectorLabels" . | nindent 4}}
+spec:
+  replicas: {{ .Values.replicaCount}}
+  selector:
+    matchLabels:
+      {{- include "mvn-helm.selectorLabels" . | nindent 6}}
+  template:
+    metadata:
+      labels:
+        {{- include "mvn-helm.selectorLabels" . | nindent 8}}
+    spec:
+      # imagePullSecrets:
+      #  - name: mvn-secret
+      containers:
+      - image: {{ .Values.image.repository }}:{{ .Values.image.tag}}
+        imagePullPolicy: {{ .Values.image.pullPolicy}}
+        name: {{ .Values.containers.name}}
+        ports:
+        - containerPort: {{ .Values.service.targetPort}}
+
+
+---
+
+#---
+#apiVersion: monitoring.coreos.com/v1
+#kind: ServiceMonitor
+#metadata:
+# name: reimburse-monitor
+#spec:
+# selector:
+#   matchLabels:
+#     app: service-app
+# endpoints:
+#   - port: service-http
+#     path: "/actuator/prometheus"

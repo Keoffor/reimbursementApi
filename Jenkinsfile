@@ -15,7 +15,7 @@ pipeline{
                 script{
                 withSonarQubeEnv(credentialsId: 'sonar1') {
                     sh 'chmod +x mvnw'
-                    sh './mvnw sonar:sonar -Dsonar.host.url=http://35.223.136.85:9000 -Dsonar.login=f15c3f2947551ec25927753d59883e219c5fbfa0'
+                    sh './mvnw sonar:sonar -Dsonar.host.url=http://34.121.217.48:9000 -Dsonar.login=f15c3f2947551ec25927753d59883e219c5fbfa0'
                 } 
                 //    timeout(time: 15, unit: 'MINUTES') {
                 //       def qg = waitForQualityGate()

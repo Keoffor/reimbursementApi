@@ -14,6 +14,8 @@ spec:
       labels:
         {{- include "mvn-helm.selectorLabels" . | nindent 8}}
     spec:
+      imagePullSecrets:
+       - name: mvn-secret
       containers:
       - image: {{ .Values.image.repository | quote}}
         imagePullPolicy: {{ .Values.image.pullPolicy}}

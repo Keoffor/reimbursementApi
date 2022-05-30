@@ -74,7 +74,7 @@ pipeline{
             script{
                   withCredentials([kubeconfigFile(credentialsId: 'kubeciti', variable: 'KUBECONFIG')]) {
                  dir('Kubernetes/') {      
-                    sh 'helm upgrade --install --set image.repository="35.192.36.184:8083/mvn-app"  --set image.tag = ${VERSION} myjavaapp mvn_helm/ '
+                    sh 'helm upgrade --install --set image.repository="35.192.36.184:8083/maven-app"  --set image.tag = ${VERSION} myjavaapp mvn_helm/ '
                  }   
 }
                 }
